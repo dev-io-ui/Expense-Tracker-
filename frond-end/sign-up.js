@@ -1,25 +1,28 @@
 
-function handleFormSubmit(e)
-{
-    const name = document.getElementById('name');
-    const email = document.getElementById('email');
-    const phone = document.getElementById('phone');
-    const password = document.getElementById('password');
 
-    const signUpObj ={
+function handleFormSubmit(e) {
+    e.preventDefault(); 
+
+    const name = document.getElementById('name').value;
+    const email = document.getElementById('email').value;
+    const phone = document.getElementById('phone').value;
+    const password = document.getElementById('password').value;
+    console.log(name ,email ,phone,password);
+
+    const signUpObj = {
         name,
         email,
         phone,
         password
-    }
-    axios.post('http://localhost:4000/user/sign-up',signUpObj)
-    .then((result)=>{
-        console.log(result);
-    })
-    .catch((err)=>{
-        console.log(err);
-    });
+    };
 
-
-
+    axios.post('http://localhost:4000/user/add-user', signUpObj)
+        .then((result) => {
+            console.log('User added successfully:', result);
+            alert('User added successfully!');
+        })
+        .catch((err) => {
+            console.error('Error adding user:', err);
+            alert('Error adding user. Please try again.');
+        });
 }
