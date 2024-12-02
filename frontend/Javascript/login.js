@@ -13,7 +13,8 @@ function handleLogin(e) {
 
     axios.post('http://localhost:4000/user/login', LoginObj)
         .then((result) => {
-            console.log('User login successfully:', result);
+            
+            localStorage.setItem("token", result.data.token);
             alert('Login successfully!');
             window.location.href = './homePage.html';
         })

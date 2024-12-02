@@ -43,16 +43,20 @@ async function addExpense() {
     // create the date string in date-month-year format
     const dateStr = `${formattedDay}-${formattedMonth}-${year}`;
     // console.log(dateStr); // outputs something like "23-02-2023"
+
+    const token = localStorage.getItem("token");
+
+
     const res = await axios
       .post("http://localhost:4000/expense/addExpense", {
         date: dateStr,
         category: categoryValue,
         description: descriptionValue,
         amount: parseInt(amountValue),
-      })
+      }, { headers: { Authorization: token } })
       .then((res) => {
         if (res.status == 200) {
-            window.location.href = './homePage.html';
+          window.location.href = './homePage.html';
         }
       })
       .catch((err) => {
@@ -65,7 +69,11 @@ async function addExpense() {
 async function getAllExpenses() {
   // e.preventDefault();
   try {
-    const res = await axios.get("http://localhost:4000/expense/getAllExpenses");
+    const token = localStorage.getItem("token");
+
+    const res = await axios.get("http://localhost:4000/expense/getAllExpenses", 
+      { headers: { Authorization: token } });
+
     console.log(res.data);
     res.data.forEach((expenses) => {
       const id = expenses.id;
@@ -111,13 +119,19 @@ async function getAllExpenses() {
 }
 async function deleteExpense(e) {
   try {
+
     if (e.target.classList.contains("delete")) {
       let tr = e.target.parentElement.parentElement;
       let id = tr.children[0].textContent;
+
+      const token = localStorage.getItem("token");
+
+
       const res = await axios.get(
         `http://localhost:4000/expense/deleteExpense/${id}`
-      );
-      window.location.href = './homePage.html';
+      , { headers: { Authorization: token } });
+      // window.location.href = './homePage.html';
+      window.location.reload();
     }
   } catch {
     (err) => console.log(err);
@@ -129,13 +143,16 @@ async function editExpense(e) {
     const descriptionValue = document.getElementById("descriptionValue");
     const amountValue = document.getElementById("amountValue");
     const addExpenseBtn = document.getElementById("submitBtn");
+    const token = localStorage.getItem("token");
+
+
     if (e.target.classList.contains("edit")) {
       let tr = e.target.parentElement.parentElement;
       let id = tr.children[0].textContent;
       //Fill the input values with the existing values
       const res = await axios.get(
         "http://localhost:4000/expense/getAllExpenses"
-      );
+      ,{ headers: { Authorization: token } });
       res.data.forEach((expense) => {
         if (expense.id == id) {
           console.log("Yeh id aayi hai res main: " + expense.id);
@@ -154,9 +171,9 @@ async function editExpense(e) {
                 category: categoryValue.textContent.trim(),
                 description: descriptionValue.value,
                 amount: amountValue.value,
-              }
+              },{ headers: { Authorization: token } }
             );
-            window.location.href = './homePage.html';
+            // window.location.href = './homePage.html';
             window.location.reload();
           });
         }
