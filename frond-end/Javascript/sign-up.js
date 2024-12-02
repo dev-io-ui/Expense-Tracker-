@@ -20,6 +20,7 @@ function handleFormSubmit(e) {
         .then((result) => {
             console.log('User added successfully:', result);
             alert('User added successfully!');
+            window.location.href = './login.html';
         })
         .catch((err) => {
             console.error('Error adding user:', err);

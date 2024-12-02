@@ -15,7 +15,7 @@ function handleLogin(e) {
         .then((result) => {
             console.log('User login successfully:', result);
             alert('Login successfully!');
-            window.location.href = './sign-up.html';
+            window.location.href = './homePage.html';
         })
         .catch((err) => {
             console.error('Error logging user:', err);

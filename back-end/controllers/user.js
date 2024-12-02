@@ -42,7 +42,7 @@ exports.postUserLogin = (req, res, next) => {
         .then((user) => {
             if (user) {
 
-                bcrypt.compare(password, us.password, async (err, result) => {
+                bcrypt.compare(password, user.password, async (err, result) => {
 
                     if (err) {
                         return res.status(500).json({ error: 'something went  wrong' });

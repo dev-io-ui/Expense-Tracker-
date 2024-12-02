@@ -8,12 +8,14 @@ const app = express();
 app.use(cors());
 
 const userRoute = require('./routes/user');
+const expenseRoute = require('./routes/expense');
 
 app.use(bodyParser.json({ extended: false }));
 
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.use(userRoute);
+app.use('/expense',expenseRoute);
 
 
 
