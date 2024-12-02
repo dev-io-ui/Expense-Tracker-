@@ -16,7 +16,7 @@ function handleFormSubmit(e) {
         password
     };
 
-    axios.post('http://localhost:4000/user/add-user', signUpObj)
+    axios.post('http://localhost:4000/user/sign-up', signUpObj)
         .then((result) => {
             console.log('User added successfully:', result);
             alert('User added successfully!');
