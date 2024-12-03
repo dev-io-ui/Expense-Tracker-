@@ -52,7 +52,7 @@ exports.updateTransactionStatus = async (req, res) => {
         });
       })
       .catch((error) => {
-        throw new Error(error);
+        console.log(error ,'error in transaction');
       });
   } catch (err) {
     console.log(err);

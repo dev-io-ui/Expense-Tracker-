@@ -10,6 +10,7 @@ app.use(cors());
 const userRoute = require('./routes/user');
 const expenseRoute = require('./routes/expense');
 const purchaseMembershipRouter = require("./routes/purchaseMember");
+const leaderboardRouter = require("./routes/leaderBoard");
 
 const User = require('./models/user');
 const Expense = require('./models/expense');
@@ -18,12 +19,16 @@ const Order = require('./models/orders');
 
 app.use(bodyParser.json({ extended: false }));
 
+const dotenv = require("dotenv");
+dotenv.config();
+
 const frontendPath = path.join(__dirname, "../front-end");
 app.use(express.static(frontendPath));
 
 app.use(userRoute);
 app.use('/expense',expenseRoute);
 app.use('/purchase',purchaseMembershipRouter);
+app.use("/premium", leaderboardRouter);
 
 
 User.hasMany(Expense);
