@@ -9,28 +9,28 @@ app.use(cors());
 
 const userRoute = require('./routes/user');
 const expenseRoute = require('./routes/expense');
+const purchaseMembershipRouter = require("./routes/purchaseMember");
 
 const User = require('./models/user');
 const Expense = require('./models/expense');
+const Order = require('./models/orders');
 
 
 app.use(bodyParser.json({ extended: false }));
 
-// Define the correct path to the frontend folder
 const frontendPath = path.join(__dirname, "../front-end");
-
-// Serve static files (CSS, JS, images) from the frontend folder
 app.use(express.static(frontendPath));
-
-// Route to serve homePage.html
-
 
 app.use(userRoute);
 app.use('/expense',expenseRoute);
+app.use('/purchase',purchaseMembershipRouter);
 
 
 User.hasMany(Expense);
 Expense.belongsTo(User);
+
+User.hasMany(Order);
+Order.belongsTo(User);
 
 sequelize.sync()
 .then((res)=>{

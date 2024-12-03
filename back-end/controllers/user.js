@@ -3,12 +3,20 @@ const bcrypt = require("bcrypt");
 
 
 const jwt = require("jsonwebtoken");
+
 function generateAccessToken(id, email) {
   return jwt.sign(
     { userId: id, email: email },
     "kjhsgdfiuiew889kbasgdfskjabsdfjlabsbdljhsd"
   );
-}
+};
+
+const isPremiumUser = (req, res, next) => {
+    if (req.user.isPremiumUser) {
+      return res.json({ isPremiumUser: true });
+    }
+  };
+
 
 exports.postUserSignUp = async (req, res) => {
     const { name, email, phone, password } = req.body;
