@@ -5,6 +5,7 @@ const sequelize = require("../util/database");
 
 
 exports.getLeaderboard = (req, res, next) => {
+
   Expense.findAll({
     attributes: [
       [sequelize.fn("sum", sequelize.col("amount")), "totalExpense"],
@@ -27,4 +28,6 @@ exports.getLeaderboard = (req, res, next) => {
       res.send(JSON.stringify(result));
     })
     .catch((err) => console.log(err));
+    
+
 };
