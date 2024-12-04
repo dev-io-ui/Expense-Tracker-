@@ -1,7 +1,6 @@
 const User = require('../models/user');
 const bcrypt = require("bcrypt");
-
-
+const sequelize = require("../util/database");
 const jwt = require("jsonwebtoken");
 
 let generateAccessToken = (id, email)=> {
@@ -10,6 +9,25 @@ let generateAccessToken = (id, email)=> {
         "kjhsgdfiuiew889kbasgdfskjabsdfjlabsbdljhsd"
     );
 };
+
+const getAllUsers = (req, res, next) => {
+    
+    User.findAll({
+      attributes: [
+        [sequelize.col("name"), "name"],
+        [sequelize.col("totalExpenses"), "totalExpenses"],
+      ],
+      order: [[sequelize.col("totalExpenses"), "DESC"]],
+    }).then((users) => {
+      const result = users.map((user) => ({
+        name: user.getDataValue("name"),
+        totalExpenses: user.getDataValue("totalExpenses"),
+      }));
+      res.send(JSON.stringify(result));
+    });
+  };
+
+
 const isPremiumUser = (req, res, next) => {
     if (req.user.isPremiumUser) {
         return res.json({ isPremiumUser: true });
@@ -88,4 +106,5 @@ module.exports = {
     generateAccessToken,
     postUserSignUp,
     postUserLogin,
+    getAllUsers
   };
