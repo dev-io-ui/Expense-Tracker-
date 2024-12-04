@@ -14,15 +14,17 @@ exports.purchasePremium = async (req, res) => {
 
     rzp.orders.create({ amount, currency: "INR" }, (err, order) => {
       if (err) {
-        throw new Error(JSON.stringify(err));
+       console.log(err);
       }
       req.user
         .createOrder({ orderid: order.id, status: "PENDING" })
         .then(() => {
+            console.log( order.id ,' order id');
+
           return res.status(201).json({ order, key_id: rzp.key_id });
         })
         .catch((err) => {
-          throw new Error(err);
+            console.log(err);
         });
     });
   } catch (err) {
@@ -34,6 +36,7 @@ exports.updateTransactionStatus = async (req, res) => {
   try {
     const userId = req.user.id;
     const { payment_id, order_id } = req.body;
+    console.log(payment_id , order_id ,' payment and order id');
 
     const order = await Order.findOne({ where: { orderid: order_id } });
 

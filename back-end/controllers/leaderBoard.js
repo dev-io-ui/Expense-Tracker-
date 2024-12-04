@@ -2,11 +2,8 @@ const path = require("path");
 const User = require("../models/user");
 const Expense = require("../models/expense");
 const sequelize = require("../util/database");
-exports.getLeaderboardPage = (req, res, next) => {
-  res.sendFile(
-    path.join(__dirname, ".../", "frontend", "views", "leaderBoard.html")
-  );
-};
+
+
 exports.getLeaderboard = (req, res, next) => {
   Expense.findAll({
     attributes: [
