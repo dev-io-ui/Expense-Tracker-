@@ -11,7 +11,7 @@ let generateAccessToken = (id, email)=> {
 };
 
 const getAllUsers = (req, res, next) => {
-    
+
     User.findAll({
       attributes: [
         [sequelize.col("name"), "name"],
@@ -28,21 +28,24 @@ const getAllUsers = (req, res, next) => {
   };
 
 
-const isPremiumUser = (req, res, next) => {
+const isPremiumUser = async (req, res, next) => {
+  try {
     if (req.user.isPremiumUser) {
-        return res.json({ isPremiumUser: true });
+      return res.json({ isPremiumUser: true });
     }
+  } catch (error) {
+    console.log(error);
+  }
 };
-
 
 const postUserSignUp = async (req, res) => {
     const { name, email, phone, password } = req.body;
     console.log(name, 'name', email, 'email', phone, 'phone', password);
+    const t = await sequelize.transaction();
     try {
         const existingUser = await User.findOne({ where: { email } });
 
         if (existingUser) {
-            console.log('in existing user', name, 'name', email, 'email', phone, 'phone', password);
 
             return res.status(400).json({ error: 'User already exists' });
 
@@ -56,11 +59,13 @@ const postUserSignUp = async (req, res) => {
             email,
             phone,
             password: hashedPassword,
-        });
+        },{transaction:t});
 
+        await t.commit();
         res.status(201).json({ message: 'User added successfully', user: newUser });
     }
     catch (err) {
+        await t.rollback();
         console.error("Error in POST /add-user:", err);
         res.status(500).json({ error: 'An error occurred while adding the user.' });
     }
@@ -68,11 +73,11 @@ const postUserSignUp = async (req, res) => {
 
 
 
-const postUserLogin = (req, res, next) => {
+const postUserLogin = async(req, res, next) => {
     const email = req.body.email;
     const password = req.body.password;
 
-    User.findOne({ where: { email: email } })
+   await User.findOne({ where: { email: email } })
         .then((user) => {
             if (user) {
 
