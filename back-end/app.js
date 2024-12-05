@@ -11,10 +11,12 @@ const userRoute = require('./routes/user');
 const expenseRoute = require('./routes/expense');
 const purchaseMembershipRouter = require("./routes/purchaseMember");
 const leaderboardRouter = require("./routes/leaderBoard");
+const resetPasswordRouter = require("./routes/resetPassword");
 
 const User = require('./models/user');
 const Expense = require('./models/expense');
 const Order = require('./models/orders');
+const ResetPassword = require("./models/resetPassword");
 
 
 app.use(bodyParser.json({ extended: false }));
@@ -22,13 +24,14 @@ app.use(bodyParser.json({ extended: false }));
 const dotenv = require("dotenv");
 dotenv.config();
 
-const frontendPath = path.join(__dirname, "../front-end");
+const frontendPath = path.join(__dirname, "../frontend");
 app.use(express.static(frontendPath));
 
 app.use(userRoute);
 app.use('/expense',expenseRoute);
 app.use('/purchase',purchaseMembershipRouter);
 app.use("/premium", leaderboardRouter);
+app.use("/password", resetPasswordRouter);
 
 
 User.hasMany(Expense);
@@ -36,6 +39,10 @@ Expense.belongsTo(User);
 
 User.hasMany(Order);
 Order.belongsTo(User);
+
+ResetPassword.belongsTo(User);
+User.hasMany(ResetPassword);
+
 
 sequelize.sync()
 .then((res)=>{
