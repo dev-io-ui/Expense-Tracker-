@@ -5,12 +5,12 @@ const router = express.Router();
 
 router.get(
   "/premiumMembership",
-  authenticatemiddleware,
+  authenticatemiddleware.authenticate,
   purchaseMembershipController.purchasePremium
 );
 router.post(
   "/updateTransactionStatus",
-  authenticatemiddleware,
+  authenticatemiddleware.authenticate,
   purchaseMembershipController.updateTransactionStatus
 );
 module.exports = router;

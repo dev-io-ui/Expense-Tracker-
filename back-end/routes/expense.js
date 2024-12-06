@@ -6,10 +6,10 @@ router.use(express.static("frontend"));
 
 
 // router.get('/',expenseController.getHomePage);
-router.get("/getAllExpenses", userAuthentication,expenseController.getAllExpenses);
-router.get("/deleteExpense/:id", userAuthentication,expenseController.deleteExpense);
-router.post("/addExpense", userAuthentication,expenseController.addExpense);
-router.post("/editExpense/:id", userAuthentication,expenseController.editExpense);
+router.get("/getAllExpenses", userAuthentication.authenticate,expenseController.getAllExpenses);
+router.get("/deleteExpense/:id", userAuthentication.authenticate,expenseController.deleteExpense);
+router.post("/addExpense", userAuthentication.authenticate,expenseController.addExpense);
+router.post("/editExpense/:id", userAuthentication.authenticate,expenseController.editExpense);
 
 
 
