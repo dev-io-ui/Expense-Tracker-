@@ -6,10 +6,10 @@ async function sendMail() {
       email: email,
     });
     alert(res.data.message);
-    window.location.href = "../views/login.html";
+    window.location.href = "./login.html";
   } catch (error) {
     console.log(error);
-    alert(error.response.data.message);
+    alert(error);
     window.location.reload();
   }
 }

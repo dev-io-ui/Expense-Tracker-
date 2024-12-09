@@ -7,6 +7,7 @@ const table = document.getElementById("tbodyId");
 const buyPremiumBtn = document.getElementById("buyPremiumBtn");
 const reportsLink = document.getElementById("reportsLink");
 const leaderboardLink = document.getElementById("leaderboardLink");
+const logoutBtn = document.getElementById("logoutBtn");
 
 categoryItems.forEach((item) => {
   item.addEventListener("click", (e) => {
@@ -305,11 +306,23 @@ async function isPremiumUser() {
 }
 }
 
+async function logout() {
+  try {
+    localStorage.clear();
+    window.location.href = "./login.html";
+  } catch (error) {
+    console.log(error);
+  }
+}
+
+
+
 buyPremiumBtn.addEventListener("click", buyPremium);
 
 addExpenseBtn.addEventListener("click", addExpense);
 document.addEventListener("DOMContentLoaded", isPremiumUser);
 document.addEventListener("DOMContentLoaded", getAllExpenses);
+logoutBtn.addEventListener("click", logout);
 
 table.addEventListener("click", (e) => {
   deleteExpense(e);
@@ -317,3 +330,5 @@ table.addEventListener("click", (e) => {
 table.addEventListener("click", (e) => {
   editExpense(e);
 });
+
+
