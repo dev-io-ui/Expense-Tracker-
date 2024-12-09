@@ -8,6 +8,7 @@ const Forgotpassword = require('../models/resetPassword');
 const forgotpassword = async (req, res) => {
     try {
         const { email } =  req.body;
+        console.log(email , 'got this email');
         const user = await User.findOne({where : { email }});
         if(user){
             const id = uuid.v4();
